@@ -1,0 +1,768 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.periodic-table-container {
+    padding: 1rem;
+    min-height: auto;
+}
+
+.periodic-table {
+    display: grid;
+    grid-template-columns: repeat(18, 1fr);
+    gap: 2px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.element {
+    aspect-ratio: 1;
+    padding: 4px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    min-width: 60px;
+    min-height: 60px;
+}
+
+.element:hover {
+    transform: scale(1.15);
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.element .atomic-number {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 0.7rem;
+    color: #4a5568;
+    font-weight: 600;
+}
+
+.element .symbol {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 8px 0 2px;
+    color: #2d3748;
+}
+
+.element .name {
+    font-size: 0.65rem;
+    text-align: center;
+    color: #4a5568;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Element categories */
+.alkali-metal {
+    background: linear-gradient(135deg, #ff6b6b, #ff8787);
+    color: white;
+}
+
+.alkaline-earth {
+    background: linear-gradient(135deg, #ffd43b, #fcc419);
+    color: #2d3748;
+}
+
+.transition-metal {
+    background: linear-gradient(135deg, #74c0fc, #4dabf7);
+    color: white;
+}
+
+.post-transition-metal {
+    background: linear-gradient(135deg, #63e6be, #38d9a9);
+    color: #2d3748;
+}
+
+.metalloid {
+    background: linear-gradient(135deg, #a9e34b, #94d82d);
+    color: #2d3748;
+}
+
+.nonmetal {
+    background: linear-gradient(135deg, #4fd1c5, #38b2ac);
+    color: white;
+}
+
+.halogen {
+    background: linear-gradient(135deg, #f687b3, #e64980);
+    color: white;
+}
+
+.noble-gas {
+    background: linear-gradient(135deg, #b197fc, #9775fa);
+    color: white;
+}
+
+.lanthanide {
+    background: linear-gradient(135deg, #ff9f43, #ffa94d);
+    color: white;
+}
+
+.actinide {
+    background: linear-gradient(135deg, #ff6b6b, #f03e3e);
+    color: white;
+}
+
+/* Category Legend */
+.periodic-table-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 260px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #4a5568;
+    padding: 5px;
+}
+
+.legend-color {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+/* Empty Cells */
+.element-cell:empty {
+    visibility: hidden;
+}
+
+/* Lanthanide and Actinide Spacing */
+.element[data-row="8"],
+.element[data-row="9"] {
+    margin-top: 20px;
+}
+
+.toggle-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.game-container {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+}
+
+.score-container {
+    text-align: right;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #4a5568;
+}
+
+.game-card {
+    background: #f7fafc;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#question-text {
+    font-size: 1.25rem;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+}
+
+#answers-container {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.answer-btn {
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.answer-btn:hover {
+    background: #edf2f7;
+    transform: translateY(-2px);
+}
+
+.answer-btn.correct {
+    background: #48bb78;
+    color: white;
+    border-color: #48bb78;
+}
+
+.answer-btn.wrong {
+    background: #f56565;
+    color: white;
+    border-color: #f56565;
+}
+
+.next-btn {
+    width: 100%;
+    padding: 1rem;
+    background: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.next-btn:hover {
+    background: #3182ce;
+}
+
+.difficulty-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.difficulty-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.difficulty-btn[data-difficulty="easy"] {
+    background: #48bb78;
+    color: white;
+}
+
+.difficulty-btn[data-difficulty="medium"] {
+    background: #ecc94b;
+    color: white;
+}
+
+.difficulty-btn[data-difficulty="hard"] {
+    background: #f56565;
+    color: white;
+}
+
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Responsive breakpoints */
+@media (min-width: 1400px) {
+    .main-container {
+        max-width: 1800px;
+        padding: 20px;
+    }
+
+    .periodic-table-container {
+        padding: 3rem;
+    }
+
+    .element {
+        min-width: 60px;
+        min-height: 60px;
+    }
+}
+
+@media (max-width: 1399px) {
+    .element {
+        min-width: 45px;
+        min-height: 45px;
+        padding: 2px;
+    }
+
+    .element .symbol {
+        font-size: 0.9rem;
+    }
+
+    .element .atomic-number {
+        font-size: 0.6rem;
+    }
+
+    .element .name {
+        font-size: 0.55rem;
+    }
+}
+
+@media (max-width: 1100px) {
+    .element {
+        min-width: 35px;
+        min-height: 35px;
+    }
+
+    .periodic-table-legend {
+        grid-template-columns: repeat(5, 1fr);
+        margin-top: 200px;
+    }
+}
+
+@media (max-width: 900px) {
+    .element {
+        min-width: 30px;
+        min-height: 30px;
+    }
+
+    .element .symbol {
+        font-size: 0.8rem;
+    }
+
+    .element .atomic-number {
+        font-size: 0.5rem;
+    }
+
+    .periodic-table-legend {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .game-container {
+        padding: 1rem;
+    }
+
+    #answers-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .element {
+        min-width: 25px;
+        min-height: 25px;
+    }
+
+    .element .name {
+        display: none;
+    }
+
+    .element:hover .name {
+        display: block;
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 2px 4px;
+        border-radius: 3px;
+        z-index: 10;
+        white-space: nowrap;
+        font-size: 0.6rem;
+    }
+
+    .periodic-table-legend {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .lanthanides-section,
+    .actinides-section {
+        gap: 1px;
+    }
+}
+
+@media (max-width: 500px) {
+    .element {
+        min-width: 20px;
+        min-height: 20px;
+    }
+
+    .element .symbol {
+        font-size: 0.7rem;
+    }
+
+    .element .atomic-number {
+        font-size: 0.45rem;
+    }
+
+    .periodic-table-legend {
+        grid-template-columns: repeat(2, 1fr);
+        margin-top: 180px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    .answer-btn {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .difficulty-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Specific element positioning */
+.element[data-atomic-number="1"] { grid-column: 1; grid-row: 1; }
+.element[data-atomic-number="2"] { grid-column: 18; grid-row: 1; }
+
+/* Period 2 */
+.element[data-atomic-number="3"] { grid-column: 1; grid-row: 2; }
+.element[data-atomic-number="4"] { grid-column: 2; grid-row: 2; }
+.element[data-atomic-number="5"] { grid-column: 13; grid-row: 2; }
+.element[data-atomic-number="6"] { grid-column: 14; grid-row: 2; }
+.element[data-atomic-number="7"] { grid-column: 15; grid-row: 2; }
+.element[data-atomic-number="8"] { grid-column: 16; grid-row: 2; }
+.element[data-atomic-number="9"] { grid-column: 17; grid-row: 2; }
+.element[data-atomic-number="10"] { grid-column: 18; grid-row: 2; }
+
+/* Add lanthanides and actinides labels */
+.lanthanides-label,
+.actinides-label {
+    grid-column: 3;
+    padding: 5px;
+    font-size: 0.8rem;
+    color: #4a5568;
+    text-align: right;
+}
+
+.lanthanides-label { grid-row: 6; }
+.actinides-label { grid-row: 7; }
+
+/* Lanthanides and Actinides sections */
+.lanthanides-section,
+.actinides-section {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    gap: 3px;
+    padding: 20px 0;
+}
+
+.lanthanides-section {
+    top: calc(100% + 40px);
+}
+
+.actinides-section {
+    top: calc(100% + 120px);
+}
+
+/* Add these styles */
+.table-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.toggle-btn {
+    padding: 0.5rem 1rem;
+    background: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background: #3182ce;
+}
+
+/* Add these styles */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loading-indicator {
+    text-align: center;
+    padding: 20px;
+}
+
+#loading-indicator p {
+    color: #666;
+    margin-top: 10px;
+}
+
+/* Game container responsive updates */
+.game-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+#answers-container {
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: 1fr;
+}
+
+.answer-btn {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+/* Lanthanides and Actinides responsive positioning */
+.lanthanides-section,
+.actinides-section {
+    width: 100%;
+    gap: 2px;
+}
+
+.lanthanides-section {
+    top: calc(100% + 30px);
+}
+
+.actinides-section {
+    top: calc(100% + 90px);
+}
+
+/* Loading spinner responsive */
+.spinner {
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+}
+
+@media (max-width: 400px) {
+    .spinner {
+        width: 25px;
+        height: 25px;
+        border-width: 2px;
+    }
+
+    .element {
+        min-width: 18px;
+        min-height: 18px;
+    }
+
+    .element .symbol {
+        font-size: 0.6rem;
+    }
+
+    .element:hover {
+        transform: scale(1.8);
+    }
+}
+
+/* Add these styles */
+.trivia-container {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.trivia-btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.trivia-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.popup-content {
+    position: relative;
+    background: white;
+    margin: 5% auto;
+    padding: 2rem;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close-popup {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #666;
+}
+
+.close-popup:hover {
+    color: #333;
+}
+
+#trivia-answers {
+    display: grid;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.trivia-answer-btn {
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.trivia-answer-btn:hover {
+    background: #f7fafc;
+}
+
+.trivia-answer-btn.correct {
+    background: #48bb78;
+    color: white;
+    border-color: #48bb78;
+}
+
+.trivia-answer-btn.wrong {
+    background: #f56565;
+    color: white;
+    border-color: #f56565;
+}
+
+.trivia-score {
+    text-align: right;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    color: #4a5568;
+}
+
+/* Responsive styles for popup */
+@media (max-width: 600px) {
+    .popup-content {
+        margin: 10% auto;
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .trivia-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Add these styles */
+.device-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.warning-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 90%;
+    margin: auto;
+}
+
+.warning-content h2 {
+    color: #e53e3e;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.warning-content p {
+    color: #4a5568;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    font-size: 1.1rem;
+}
